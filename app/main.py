@@ -6,7 +6,8 @@ def move_file(command: str) -> None:
 
     if len(parts) != 3 or parts[0] != "mv":
         raise ValueError(
-            "Invalid command. Expected format: mv <source> <destination>"
+            "Invalid command. Expected format: "
+            "mv <source> <destination>"
         )
 
     _, source, destination = parts
@@ -23,7 +24,9 @@ def move_file(command: str) -> None:
         for part in dest_dir.replace("\\", "/").split("/"):
             if not part:
                 continue
-            current_path = os.path.join(current_path, part) if current_path else part
+            current_path = (
+                os.path.join(current_path, part) if current_path else part
+            )
             try:
                 os.mkdir(current_path)
             except FileExistsError:
