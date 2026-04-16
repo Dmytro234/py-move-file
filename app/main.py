@@ -39,3 +39,5 @@ def move_file(command: str) -> None:
         dst.write(content)
 
     os.remove(source)
+
+
