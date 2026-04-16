@@ -9,7 +9,7 @@ def move_file(command: str) -> None:
             "Invalid command. Expected format: mv <source> <destination>"
         )
 
-    cmd, source, destination = parts
+    _, source, destination = parts
 
     if destination.endswith("/"):
         dest_dir = destination
@@ -19,10 +19,18 @@ def move_file(command: str) -> None:
         dest_dir = os.path.dirname(destination)
 
     if dest_dir:
-        os.makedirs(dest_dir, exist_ok=True)
+        current_path = ""
+        for part in dest_dir.replace("\\", "/").split("/"):
+            if not part:
+                continue
+            current_path = os.path.join(current_path, part) if current_path else part
+            try:
+                os.mkdir(current_path)
+            except FileExistsError:
+                pass
 
     with open(source, "r") as src:
-        content: str = src.read()
+        content = src.read()
 
     with open(dest_file, "w") as dst:
         dst.write(content)
